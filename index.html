@@ -2,421 +2,821 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>G sa Serbisyo: Information System 2026</title>
+<title>G sa Serbisyo | Records</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
+
 <style>
-.hero.is-primary { 
-  background: linear-gradient(135deg, #34D399, #10B981); 
+/* PAGE BACKGROUND */
+body {
+  background:
+    linear-gradient(
+      rgba(236, 253, 245, 0.85),
+      rgba(236, 253, 245, 0.85)
+    ),
+    url("background.png") center / 100% no-repeat fixed;
 }
 
-body { background-color: #f0fdf4;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* PAGINATION ONE LINE */
+#pagination {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 6px;
+  white-space: nowrap;
 }
 
-form { 
-  background: #ffffff; 
-  padding: 2rem; 
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+#pagination button {
+  min-width: 38px;
 }
 
-input.input, select.select select, .buttons .button { 
-  border-radius: 8px; 
+#pagination::-webkit-scrollbar {
+  height: 6px;
 }
 
-input.input:focus, select.select select:focus { 
-  border-color: #10B981 !important;
-  box-shadow: 0 0 5px rgba(16,185,129,0.5); 
-}
-
-.buttons .button.is-primary { 
-  background-color: #10B981;
-  border-color: transparent;
-  transition: background 0.3s; 
-}
-
-.buttons .button.is-primary:hover { 
-  background-color: #059669; 
-}
-
-.buttons .button.is-danger {
-  border-radius: 8px; 
+#pagination::-webkit-scrollbar-thumb {
+  background: #d1fae5;
+  border-radius: 4px;
 }
 
 
-.notification { 
-  border-radius: 10px; 
-  font-weight: 500; 
+
+.hero.is-primary {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+/* FORM CARD */
+.form-card {
+  background-color: rgb(255, 255, 255, 0.5)#ffffff;
+  padding: 1rem;
+  border-radius: 14px;
+}
+
+.button.is-danger.is-light {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.button.is-primary {
+  background:linear-gradient(135deg, #22c55e, #16a34a);
 }
 
 
-#searchInput { 
-  border-radius: 8px;
-  padding: 0.75rem;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-  margin-bottom: 1rem;
+.gender-group {
+  display: flex;
+  gap: 12px;
 }
 
-table { 
+.gender-option {
+  flex: 1;
+  position: relative;
+}
+
+.gender-option input {
+  display: none; /* hide radio */
+}
+
+.gender-option span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 56px;
+  width: 100%;
+
   background: #ffffff;
-  border-radius: 12px; overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-  width: 100%; 
+  color: #111827;
+
+  border-radius: 14px;
+  border: 2px solid #d1fae5;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-table thead { 
-  background: #10B981;
-  color: white; 
+/* ACTIVE (SELECTED) STATE */
+.gender-option input:checked + span {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #ffffff;
+  border: none;          /* removes white line */
+  box-shadow: none;
+}
+
+/* HOVER */
+.gender-option span:hover {
+  border-color: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+/* REMOVE FOCUS OUTLINE */
+.gender-option input:focus + span {
+  outline: none;
 }
 
 
-table tbody tr:hover { 
-  background-color: #d1fae5; 
+
+/* ACTION BUTTONS – SAME SIZE */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
-table td, table th {
-  padding: 0.75rem 1rem; 
+.form-actions .button {
+  min-width: 120px;
 }
 
-hr { 
-  border-top: 2px solid #10B981;
-  margin: 2rem 0; 
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 1.8rem 0 0.8rem;
+  color: #065f46;
+  border-bottom: 1px solid #d1fae5;
+  padding-bottom: 4px;
+}
+
+.required {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.input, .select select {
+  border-radius: 6px;
+  border: 1.2px solid #d1d5db;
+}
+
+.input:focus, .select select:focus {
+  border-color: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 0 0 2px rgba(34,197,94,0.15);
+}
+
+.input {
+  background: rgba(255, 255, 255, 0.85);
 }
 
 
-@media screen and (max-width: 768px){
-  table, thead, tbody, th, td, tr { display: block; }
-  th { position: absolute; top: -9999px; left: -9999px; }
-  td { border: none; position: relative; padding-left: 50%; margin-bottom: 10px; }
-  td:before { position: absolute; top: 0; left: 6px; width: 45%; padding-right: 10px; white-space: nowrap; font-weight: bold; }
-  td:nth-of-type(1):before { content: "Timestamp"; }
-  td:nth-of-type(2):before { content: "Address"; }
-  td:nth-of-type(3):before { content: "Barangay"; }
-  td:nth-of-type(4):before { content: "Name"; }
-  td:nth-of-type(5):before { content: "Gender"; }
-  td:nth-of-type(6):before { content: "Date of Birth"; }
-  td:nth-of-type(7):before { content: "Age"; }
-  td:nth-of-type(8):before { content: "Contact"; }
-  td:nth-of-type(9):before { content: "Assistance"; }
-  td:nth-of-type(10):before { content: "Received By"; }
-  td:nth-of-type(11):before { content: "Received Date"; }
-  td:nth-of-type(12):before { content: "Status"; }
+.box {
+  width: 100%;
+  padding: 1.15rem 1.15rem 1.15rem;
+  background: rgba(255, 255, 255, 0.45); /* TRUE transparency */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    0 6px 14px rgba(0, 0, 0, 0.06);
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
+
+
+
+
+/* Toast popup */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 90%;
+  text-align: center;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+  pointer-events: auto;
+}
+
+/* HEADER */
+.main-header {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  height: 150px;               /* increased from 70px */
+  padding: 0 28px;            /* a bit more breathing space */
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+/* LEFT SIDE */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* LOGO */
+.header-logo {
+  height: 5rem;
+  width: auto;
+}
+
+/* TITLE */
+.header-left h1 {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* TABLE WRAPPER – ALLOW HORIZONTAL SCROLL */
+.table-wrapper {
+  width: 100%;
+}
+
+/* FORCE TABLE WIDER */
+.records-table {
+  min-width: 1600px; /* adjust if needed */
+  table-layout: fixed;
+}
+
+/* ONE-LINE HEADER */
+.records-table th {
+  white-space: nowrap;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* FORCE TABLE TO USE FULL WIDTH */
+.records-table {
+  width: 100%;
+  table-layout: auto; /* allow columns to expand naturally */
+}
+
+/* ONE-LINE HEADERS */
+.records-table th {
+  white-space: nowrap;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* ONE-LINE DATA CELLS */
+.records-table td {
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+/* INCREASE COLUMN BREATHING SPACE */
+.records-table th,
+.records-table td {
+  padding: 12px 18px;
+}
+
+.records-table th:nth-child(2),
+.records-table td:nth-child(2) {
+  width: 200px; /* Address */
+}
+
+.records-table th:nth-child(4),
+.records-table td:nth-child(4) {
+  width: 260px; /* Full Name */
+}
+
+.records-table th:nth-child(8),
+.records-table td:nth-child(8) {
+  width: 220px; /* Assistance Needed */
+}
+
+
+
+/* ONE-LINE CELLS (OPTIONAL, CLEAN LOOK) */
+.records-table td {
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+/* BETTER COLUMN SPACING */
+.records-table th,
+.records-table td {
+  padding: 10px 14px;
+}
+
+
+
+.header-left h1 span {
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+/* LOGOUT BUTTON */
+.logout-btn {
+  background: #f14668;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 16px 34px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.logout-btn:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+  color: #991b1b;
+    border-radius: 6px;
+  padding: 16px 34px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* CENTER CONTENT AREA */
+.container.is-fluid {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* CENTER FILTERS + TABLE */
+.records-wrapper {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.input,
+.select select,
+.button {
+  height: 44px;
+}
+
+.list-title {
+  text-align: center;
+  width: 100%;
+}
+
+.records-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.records-title-box {
+  width: 100%;
+  max-width: 1600px;
+  margin: 1.2rem auto 1.5rem;
+
+  padding: 14px 20px;
+
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+
+
+
 </style>
+
+
 </head>
+
+
 <body>
-<section class="hero is-primary">
-  <div class="hero-body">
-    <h1 class="title has-text-white">G na G sa Serbisyo: Assistance Information 2026</h1>
+<header class="main-header">
+  <div class="header-left">
+    <img src="logo1.png" alt="Logo" class="header-logo">
+    <h1>
+      G NA G SA SERBISYO
+      <span>| LIST OF BENEFICIARIES</span>
+    </h1>
   </div>
-</section>
+</header>
 
-<div class="container mt-5">
-<form id="form" autocomplete="off">
-  <input class="input mb-2" name="Address" placeholder="Address" required>
-  <div class="select mb-2 is-fullwidth">
-    <select name="Barangay" required>
-      <option value="">Select Barangay</option>
-      <option>Bagbaguin</option><option>Gen. T. De Leon</option><option>Karuhatan</option>
-      <option>Mapulang Lupa</option><option>Marulas</option><option>Maysan</option>
-      <option>Parada</option><option>Paso De Blas</option><option>Ugong</option>
-    </select>
-  </div>
-  <input class="input mb-2" name="First Name" placeholder="First Name" required>
-  <input class="input mb-2" name="Middle Name" placeholder="Middle Name">
-  <input class="input mb-2" name="Last Name" placeholder="Last Name" required>
-  <div class="mb-2">
-    <label><input type="radio" name="Gender" value="Male" required> Male</label>
-    <label class="ml-3"><input type="radio" name="Gender" value="Female"> Female</label>
-  </div>
-<div class="field mb-2">
-  <label class="label">Birthdate</label>
-  <div class="control">
-    <input class="input" type="date" name="Date of Birth" required>
-  </div>
+
+
+<div class="container is-fluid mt-4">
+
+<div class="records-wrapper">
+  <!-- NAV -->
+<div class="records-title-box">
+  <span>List of Records</span>
 </div>
 
-  <div class="field mb-2">
-    <label class="label">Contact Number</label>
-    <div class="control">
-      <input
-        class="input"
-        name="Contact No."
-        placeholder="09XXXXXXXXX"
-        required
-        inputmode="numeric"
-        pattern="\d{11}"
-        maxlength="12"
-        title="Contact number must be exactly 12 digits (e.g. 09XXXXXXXXX)">
+
+
+
+<div class="columns mb-3 is-vcentered">
+
+  <!-- SEARCH -->
+  <div class="column is-3">
+    <input
+      id="searchInput"
+      class="input is-fullwidth"
+      placeholder="Search name or address..."
+    >
+  </div>
+
+  <!-- BARANGAY -->
+  <div class="column is-2">
+    <div class="select is-fullwidth">
+      <select id="filterBarangay">
+        <option value="">All Barangay</option>
+      </select>
     </div>
+  </div>
+
+  <!-- BATCH -->
+  <div class="column is-2">
+    <div class="select is-fullwidth">
+      <select id="filterBatch">
+        <option value="">All Batches</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="column is-2">
+    <div class="select is-fullwidth">
+      <select id="filterStatus">
+        <option value="">All Status</option>
+        <option>not claimed</option>
+        <option>in process</option>
+        <option>claimed</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ASSISTANCE -->
+  <div class="column is-2">
+    <div class="select is-fullwidth">
+      <select id="filterAssist">
+        <option value="">All Assistance</option>
+      </select>
+    </div>
+  </div>
+
 </div>
 
-  <div class="select mb-2 is-fullwidth">
-    <select name="Received By" required>
-      <option value="">Received By</option>
-      <option>Juday</option><option>Jhanice</option><option>Oyeng</option>
-      <option>Narda</option><option>Chad</option>
-    </select>
-  </div>
-  <div class="select mb-2 is-fullwidth">
-    <select name="Assistance Needed" required>
-      <option value="">Select Assistance Needed</option>
-      <option>Burial</option><option>Medical</option><option>Educational</option>
-    </select>
-  </div>
-<div class="field mb-3">
-  <label class="label">Received Date</label>
-  <div class="control">
-    <input class="input" type="date" id="receivedDate" name="Received Date" required>
+
+
+
+
+<div id="totals" style="margin-top:15px;font-weight:600;"></div>
+
+<div id="pagination" class="buttons mt-3"></div>
+
+<!-- LOADING OVERLAY -->
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loading-box">
+    <span class="loader"></span>
+    <p>Loading records, please wait...</p>
   </div>
 </div>
 
-  <div class="buttons mt-3">
-    <button class="button is-primary" id="submitBtn">Submit</button>
-    <button type="button" class="button is-danger" id="cancelBtn">Cancel</button>
-  </div>
-</form>
 
-<div id="msg" class="notification is-hidden mt-4"></div>
-<hr class="my-5">
 
-<div class="field">
-  <label class="label">Search Records</label>
-  <div class="control">
-    <input class="input" id="searchInput" type="text" placeholder="Search by name, address, barangay, contact number, assistance, received by">
-  </div>
+<div class="table-wrapper">
+  <table class="table is-fullwidth is-striped records-table">
+<thead>
+  <tr>
+    <th>Batch</th>
+    <th>Barangay</th>
+    <th>Full Name</th>
+    <th>Date of Birth</th>
+    <th>Age</th>
+    <th>Contact No.</th>
+    <th>Assistance Needed</th>
+    <th>Received By</th>
+    <th>Received Date</th>
+    <th>Status</th>
+    <th>Date Claimed</th>
+  </tr>
+</thead>
+
+
+    <tbody id="tbody"></tbody>
+  </table>
 </div>
 
-<table class="table is-fullwidth is-striped is-hoverable">
-  <thead>
-    <tr>
-      <th>Timestamp</th><th>Address</th><th>Barangay</th><th>Name</th><th>Gender</th>
-      <th>Date of Birth</th><th>Age</th><th>Contact No.</th><th>Assistance Needed</th>
-      <th>Received By</th><th>Received Date</th><th>Status</th>
-
-    </tr>
-  </thead>
-  <tbody id="recordsTable"></tbody>
-</table>
 </div>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbyKOiF_MoJzATzLSOhFSsTWdgU-ZJoGBAuJeM37LB7zDC19WahnfRGp117hrGxFlwCQlg/exec";
-const form = document.getElementById("form");
-const receivedDate = document.getElementById("receivedDate");
-const msg = document.getElementById("msg");
-const cancelBtn = document.getElementById("cancelBtn");
-const tableBody = document.getElementById("recordsTable");
+const scriptURL = "https://script.google.com/macros/s/AKfycbz4XtByyRi41zAMV_VKahiqPTgQVs2F2VqML4LhRkvMknM29Xm-C8axXcq2nSWIOuMl/exec";
+
+const tbody = document.getElementById("tbody");
+const batchFilter = document.getElementById("filterBatch");
+const statusFilter = document.getElementById("filterStatus");
+const assistFilter = document.getElementById("filterAssist");
 const searchInput = document.getElementById("searchInput");
-
-/*let records = [];
-const today = new Date().toISOString().split("T")[0];
-receivedDate.value = today;
-receivedDate.min = today;
-receivedDate.max = today;*/
-
-cancelBtn.onclick = () => {
-  form.reset();
-  receivedDate.value = today;
-  msg.classList.add("is-hidden");
-};
+const pagination = document.getElementById("pagination");
+const barangayFilter = document.getElementById("filterBarangay");
+const totalsDiv = document.getElementById("totals");
+const loadingOverlay = document.getElementById("loadingOverlay");
 
 
-function formatPHDateTime(dateStr){
-  const d = new Date(dateStr);
-  return d.toLocaleString("en-PH", {
-    timeZone: "Asia/Manila",
-    year: "numeric",
-    month: "long",
-    day: "2-digit",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true
-  });
-}
+let allRecords = [];
+let filteredRecords = [];
+let currentPage = 1;
+const ROWS_PER_PAGE = 100;
 
-function formatDateOnly(dateStr){
-  if(!dateStr) return "";
-  const d = new Date(dateStr);
-  return d.toLocaleDateString("en-PH", {
-    year: "numeric",
-    month: "long",
-    day: "2-digit"
-  });
-}
-
-function calculateExactAge(birthDate){
-  if(!birthDate) return "";
-
-  const today = new Date();
-  const birth = new Date(birthDate);
-
-  let age = today.getFullYear() - birth.getFullYear();
-  const monthDiff = today.getMonth() - birth.getMonth();
-  const dayDiff = today.getDate() - birth.getDate();
-
-  // If birthday has NOT occurred yet this year
-  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-    age--;
-  }
-
-  return age;
+/* =========================
+   DATE FORMATTER (DATE ONLY)
+========================= */
+function formatDateOnly(val) {
+  if (!val) return "";
+  const d = new Date(val);
+  if (isNaN(d)) return "";
+  return d.toISOString().split("T")[0];
 }
 
 
 
 
-function renderTable(data){
-  tableBody.innerHTML = "";
-  data.forEach(item=>{
-    const row=document.createElement("tr");
-row.innerHTML = `
-  <td>${formatPHDateTime(item.Timestamp)}</td>
-  <td>${item.Address}</td>
-  <td>${item.Barangay}</td>
-  <td>${item.Name}</td>
-  <td>${item.Gender}</td>
-  <td>${formatDateOnly(item.Birthdate)}</td>
-  <td>${calculateExactAge(item.Birthdate)}</td>
-  <td>${item.Contact}</td>
-  <td>${item.Assistance}</td>
-  <td>${item.ReceivedBy}</td>
-  <td>${formatDateOnly(item.ReceivedDate)}</td>
-  <td>${item.Status}</td>
-`;
+/* =========================
+   LOAD RECORDS
+========================= */
+async function loadRecords() {
+  // SHOW loading
+  loadingOverlay.style.display = "flex";
 
-    tableBody.appendChild(row);
-  });
-}
-
-async function loadRecords(){
-  try{
-    const res = await fetch(scriptURL);
+  try {
+    const res = await fetch(scriptURL + "?action=records");
     const json = await res.json();
-    if(json.status==='success'){
-      records=json.data.map(r=>({
-        Timestamp: r.Timestamp,
-        Address: r.Address,
-        Barangay: r.Barangay,
-        Name: `${r["First Name"]} ${r["Middle Name"]||""} ${r["Last Name"]}`,
-        Gender: r.Gender,
-        Birthdate: r["Date of Birth"],
-        Age: calculateExactAge(r["Date of Birth"]),
-        Contact: r["Contact No."],
-        Assistance: r["Assistance Needed"],
-        ReceivedBy: r["Received By"],
-        ReceivedDate: r["Received Date"],
-        Status: r.Status || "Not Claimed"
 
-      }));
-      renderTable(records);
+    if (json.status !== "success") {
+      console.error("Failed to load records");
+      return;
     }
-  }catch(err){ console.error(err); }
+
+    allRecords = json.data.map(r => ({
+      batch: r.batch || "",
+      barangay: r.barangay || "",
+      contact: r.contact || "",
+
+      fullName: `${r.lastName || ""}, ${[
+        r.firstName,
+        r.middleName,
+        r.extraName
+      ].filter(Boolean).join(" ")}`.trim(),
+
+      dob: r.dob,
+      age: r.age,
+      assistance: r.assistance || "",
+      receivedBy: r.receivedBy || "",
+      receivedDate: r.receivedDate,
+      status: r.status || "",
+      dateClaimed: r.dateClaimed
+    }));
+
+    populateFilters();
+    applyFilters();
+
+  } catch (err) {
+    console.error("Error loading records:", err);
+
+  } finally {
+    // HIDE loading (always runs)
+    loadingOverlay.style.display = "none";
+  }
 }
+
 loadRecords();
 
-searchInput.addEventListener("keyup",()=>{
-  const keyword = searchInput.value.toLowerCase();
-  const filtered = records.filter(r=> Object.values(r).join(" ").toLowerCase().includes(keyword));
-  renderTable(filtered);
-});
 
-function isDuplicate(first,middle,last){
-  return records.some(r=>r.Name.toLowerCase()===`${first} ${middle||""} ${last}`.toLowerCase());
-}
+/* =========================
+   POPULATE FILTERS
+========================= */
+function populateFilters() {
+  const batches = [...new Set(allRecords.map(r => r.batch).filter(Boolean))];
+  batchFilter.innerHTML = `<option value="">All Batches</option>`;
+  batches.forEach(b => batchFilter.innerHTML += `<option value="${b}">${b}</option>`);
 
-function validateForm() {
-  const contact = form["Contact No."].value.trim();
-  const birthDate = form["Date of Birth"].value;
-  const received = form["Received Date"].value;
+  const statuses = [...new Set(allRecords.map(r => r.status).filter(Boolean))];
+  statusFilter.innerHTML = `<option value="">All Status</option>`;
+  statuses.forEach(s => statusFilter.innerHTML += `<option value="${s}">${s}</option>`);
 
-  // Contact number validation
-  if (!/^\d{11}$/.test(contact)) {
-    showError("❌ Contact number must be EXACTLY 12 digits (639XXXXXXXXX).");
-    return false;
-  }
+  const assists = [...new Set(allRecords.map(r => r.assistance).filter(Boolean))];
+  assistFilter.innerHTML = `<option value="">All Assistance</option>`;
+  assists.forEach(a => assistFilter.innerHTML += `<option value="${a}">${a}</option>`);
 
-  // Birthdate validation
-  if (!birthDate || new Date(birthDate) > new Date()) {
-    showError("❌ Birthdate is invalid or in the future.");
-    return false;
-  }
-
-  // Received date validation
-  if (!received) {
-    showError("❌ Received Date is required.");
-    return false;
-  }
-
-  return true;
-}
-
-function showError(message) {
-  msg.className = "notification is-danger";
-  msg.textContent = message;
-  msg.classList.remove("is-hidden");
+  const barangays = [...new Set(allRecords.map(r => r.barangay).filter(Boolean))];
+  barangayFilter.innerHTML = `<option value="">All Barangay</option>`;
+  barangays.forEach(b => barangayFilter.innerHTML += `<option value="${b}">${b}</option>`);
 }
 
 
+/* =========================
+   APPLY FILTERS + SEARCH
+========================= */
+function applyFilters() {
+  const batchVal = batchFilter.value.toLowerCase();
+  const statusVal = statusFilter.value.toLowerCase();
+  const assistVal = assistFilter.value.toLowerCase();
+  const barangayVal = barangayFilter.value.toLowerCase();
+  const searchVal = searchInput.value.toLowerCase();
 
-form.onsubmit = async e => {
-  e.preventDefault();
+  filteredRecords = allRecords.filter(r => {
+    const batch = String(r.batch || "").toLowerCase();
+    const status = String(r.status || "").toLowerCase();
+    const assistance = String(r.assistance || "").toLowerCase();
+    const barangay = String(r.barangay || "").toLowerCase();
 
-  // 🔒 WEBSITE VALIDATION FIRST
-  if (!validateForm()) return;
+    const searchableText = `
+      ${String(r.fullName || "")}
+      ${String(r.barangay || "")}
+      ${String(r.contact || "")}
+    `.toLowerCase();
 
-  const first = form["First Name"].value.trim();
-  const middle = form["Middle Name"].value.trim();
-  const last = form["Last Name"].value.trim();
+    return (
+      (!batchVal || batch === batchVal) &&
+      (!statusVal || status === statusVal) &&
+      (!assistVal || assistance === assistVal) &&
+      (!barangayVal || barangay === barangayVal) &&
+      (!searchVal || searchableText.includes(searchVal))
+    );
+  });
 
-  if (isDuplicate(first, middle, last)) {
-    showError("❌ Duplicate name entry!");
+  currentPage = 1;
+  renderTable();
+  renderPagination();
+}
+
+/* =========================
+   RENDER TABLE
+========================= */
+function renderTable() {
+  tbody.innerHTML = "";
+
+  const start = (currentPage - 1) * ROWS_PER_PAGE;
+  const pageData = filteredRecords.slice(start, start + ROWS_PER_PAGE);
+
+  pageData.forEach(r => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${r.batch}</td>
+        <td>${r.barangay}</td>
+        <td>${r.fullName}</td>
+        <td>${formatDateOnly(r.dob)}</td>
+        <td>${r.age}</td>
+        <td>${r.contact}</td>
+        <td>${r.assistance}</td>
+        <td>${r.receivedBy}</td>
+        <td>${formatDateOnly(r.receivedDate)}</td>
+        <td>${r.status}</td>
+        <td>${formatDateOnly(r.dateClaimed)}</td>
+      </tr>
+    `;
+  });
+}
+
+
+
+
+/* =========================
+   PAGINATION
+========================= */
+function renderPagination() {
+  pagination.innerHTML = "";
+
+  const totalPages = Math.ceil(filteredRecords.length / ROWS_PER_PAGE);
+  if (totalPages <= 1) return;
+
+  // PREVIOUS BUTTON
+  const prevBtn = document.createElement("button");
+  prevBtn.className = "button is-small";
+  prevBtn.innerHTML = "&#9664;"; // ◀
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.onclick = () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderTable();
+      renderPagination();
+    }
+  };
+  pagination.appendChild(prevBtn);
+
+  // PAGE NUMBERS (LIMIT DISPLAY)
+  const MAX_VISIBLE = 12;
+  let start = Math.max(1, currentPage - Math.floor(MAX_VISIBLE / 2));
+  let end = Math.min(totalPages, start + MAX_VISIBLE - 1);
+
+  if (end - start < MAX_VISIBLE - 1) {
+    start = Math.max(1, end - MAX_VISIBLE + 1);
+  }
+
+  for (let i = start; i <= end; i++) {
+    const btn = document.createElement("button");
+    btn.className = `button is-small ${i === currentPage ? "is-primary" : ""}`;
+    btn.textContent = i;
+    btn.onclick = () => {
+      currentPage = i;
+      renderTable();
+      renderPagination();
+    };
+    pagination.appendChild(btn);
+  }
+
+
+function renderTotals() {
+  if (!filteredRecords.length) {
+    totalsDiv.innerHTML = "No records found.";
     return;
   }
 
-  msg.className = "notification is-info";
-  msg.textContent = "Submitting...";
-  msg.classList.remove("is-hidden");
+  const selectedBarangay = barangayFilter.value;
+  const selectedAssist = assistFilter.value;
 
-  const fd = new FormData(form);
-  const data = Object.fromEntries(fd.entries());
+  let barangayHTML = "";
+  let assistanceHTML = "";
 
-  const age = calculateExactAge(data["Date of Birth"]);
-  data.Age = Number(age);
+  /* =========================
+     BARANGAY TOTAL
+  ========================= */
+  if (selectedBarangay) {
+    const count = filteredRecords.filter(
+      r => r.barangay === selectedBarangay
+    ).length;
 
-  const res = await fetch(scriptURL, {
-    method: "POST",
-    body: JSON.stringify(data)
-  });
-
-  const json = await res.json();
-
-  if (json.status === "success") {
-    records.push({
-      Timestamp: new Date().toISOString(),
-      Address: data.Address,
-      Barangay: data.Barangay,
-      Name: `${data["First Name"]} ${data["Middle Name"] || ""} ${data["Last Name"]}`,
-      Gender: data.Gender,
-      Birthdate: data["Date of Birth"],
-      Age: age,
-      Contact: data["Contact No."],
-      Assistance: data["Assistance Needed"],
-      ReceivedBy: data["Received By"],
-      ReceivedDate: data["Received Date"]
-    });
-
-    renderTable(records);
-    form.reset();
-    msg.className = "notification is-success";
-    msg.textContent = "✅ Data validated and saved successfully.";
-  } else {
-    showError("❌ Error saving data.");
+    barangayHTML = `<strong>TOTAL BARANGAY:</strong> 
+      ${selectedBarangay.toUpperCase()}: ${count} beneficiaries`;
   }
-};
 
+  /* =========================
+     ASSISTANCE TOTAL
+  ========================= */
+  if (selectedAssist) {
+    const count = filteredRecords.filter(
+      r => r.assistance === selectedAssist
+    ).length;
+
+    assistanceHTML = `<strong>TOTAL ASSISTANCE:</strong> 
+      ${selectedAssist}: ${count} beneficiaries`;
+  }
+
+  /* =========================
+     DISPLAY
+  ========================= */
+  totalsDiv.innerHTML = `
+    ${barangayHTML ? `<div style="margin-bottom:6px;">${barangayHTML}</div>` : ""}
+    ${assistanceHTML ? `<div>${assistanceHTML}</div>` : ""}
+  `;
+}
+
+
+
+
+  // NEXT BUTTON
+  const nextBtn = document.createElement("button");
+  nextBtn.className = "button is-small";
+  nextBtn.innerHTML = "&#9654;"; // ▶
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.onclick = () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderTable();
+      renderPagination();
+      renterTotals();
+    }
+  };
+  pagination.appendChild(nextBtn);
+}
+
+/* =========================
+   EVENTS
+========================= */
+batchFilter.onchange = applyFilters;
+statusFilter.onchange = applyFilters;
+assistFilter.onchange = applyFilters;
+searchInput.oninput = applyFilters;
+
+/* =========================
+   SESSION CHECK
+========================= */
+if (!localStorage.getItem("username")) {
+  location.href = "login.html";
+}
+
+function logout() {
+  localStorage.clear();
+  location.href = "login.html";
+}
 </script>
+
+
 </body>
 </html>
